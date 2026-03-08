@@ -1,0 +1,450 @@
+
+---
+title: "Introdução à programação orientada a objetos"
+subtitle: "Cálculo de tarifa de importação"
+author: "Amilton Lobo Mendes Júnior"
+format: revealjs
+---
+
+## Objetivo da aula
+
+- Entender conceitos básicos de **orientação a objetos**
+- Aplicar em um problema real de **comércio exterior**
+- Calcular **tarifas de importação**
+- Aplicação com **Python ou R**
+
+---
+
+## Problema prático
+
+Temos uma lista de produtos importados:
+
+| NCM | Produto | CIF (USD) |
+|----|----|----|
+8471.30.12 | Notebook | 1000 |
+8517.12.31 | Smartphone | 800 |
+8528.72.00 | Televisor | 1200 |
+
+Queremos calcular:
+
+- tarifa de importação
+- valor final do produto
+
+---
+
+## Estrutura conceitual
+
+```{mermaid}
+classDiagram
+class ProdutoImportado{
+  ncm
+  descricao
+  valor_cif
+  aliquota
+  tarifa()
+  valor_final()
+}
+```
+
+---
+
+## Conceitos fundamentais
+
+| Conceito | Definição | Exemplo |
+|---|---|---|
+Classe |  Definição de uma estrutura que representa um conceito ou objeto do mundo real | ProdutoImportado | 
+Objeto | Materialização de uma classe | Notebook importado | 
+Atributo | Característica ou propriedade de um objeto | ncm | 
+Método | Função definida dentro de uma classe, comportamento esperado de um objeto | calcular_tarifa() 
+Construtor  | Método especial que inicializa os atributos da classe | __init__() | 
+
+---
+
+## Classe em Python
+
+```python
+class ProdutoImportado:
+
+    def __init__(self, ncm, descricao, valor_cif, aliquota):
+        self.ncm = ncm
+        self.descricao = descricao
+        self.valor_cif = valor_cif
+        self.aliquota = aliquota
+
+    def tarifa_importacao(self):
+        return self.valor_cif * self.aliquota
+
+    def valor_final(self):
+        return self.valor_cif + self.tarifa_importacao()
+```
+
+---
+
+## Usando a classe ( Python )
+
+```python
+notebook = ProdutoImportado(
+    "8471.30.12",
+    "Notebook",
+    1000,
+    0.14
+)
+
+notebook.tarifa_importacao()
+notebook.valor_final()
+```
+
+---
+
+## Classe equivalente em R
+
+```r
+library(R6)
+
+ProdutoImportado <- R6Class(
+ "ProdutoImportado",
+ public=list(
+
+  ncm=NULL,
+  descricao=NULL,
+  valor_cif=NULL,
+  aliquota=NULL,
+
+  initialize=function(ncm,descricao,valor_cif,aliquota){
+    self$ncm <- ncm
+    self$descricao <- descricao
+    self$valor_cif <- valor_cif
+    self$aliquota <- aliquota
+  },
+
+  tarifa_importacao=function(){
+    self$valor_cif * self$aliquota
+  },
+
+  valor_final=function(){
+    self$valor_cif + self$tarifa_importacao()
+  }
+ )
+)
+```
+
+---
+
+## Usando a classe (R)
+
+```r
+notebook <- ProdutoImportado$new(
+ "8471.30.12",
+ "Notebook",
+ 1000,
+ 0.14
+)
+
+notebook$tarifa_importacao()
+notebook$valor_final()
+```
+
+---
+
+## Exemplo com lista de produtos (Python)
+
+```python
+produtos = [
+    ProdutoImportado("8471.30.12","Notebook",1000,0.14),
+    ProdutoImportado("8517.12.31","Smartphone",800,0.16),
+    ProdutoImportado("8528.72.00","Televisor",1200,0.20)
+]
+
+for p in produtos:
+    print(p.descricao, p.valor_final())
+```
+---
+
+## Exemplo com lista de produtos (R)
+```r
+produtos <- list(
+  ProdutoImportado$new("8471.30.12","Notebook",1000,0.14),
+  ProdutoImportado$new("8517.12.31","Smartphone",800,0.16),
+  ProdutoImportado$new("8528.72.00","Televisor",1200,0.20)
+)
+
+lapply(produtos, function(p) p$valor_final())
+```
+
+---
+
+## Construtores
+- Em Python: método `__init__()`
+- Em R: método `initialize()` 
+- Permitem criar objetos com atributos pré-definidos
+
+---
+
+## Exemplo de construtor em Python
+
+```python
+class ProdutoImportado:
+
+    def __init__(self, ncm, valor_cif, aliquota, descricao="Descrição não disponível"):
+        self.ncm = ncm
+        self.descricao = descricao
+        self.valor_cif = valor_cif
+        self.aliquota = aliquota
+    
+```
+
+---
+
+## Exemplo de construtor em R
+```r
+ProdutoImportado <- R6Class(
+ "ProdutoImportado",
+  public=list(
+  
+    ncm=NULL,
+    descricao=NULL,
+    valor_cif=NULL,
+    aliquota=NULL,
+  
+    initialize=function(ncm,valor_cif,aliquota,descricao="Descrição não disponível"){
+      self$ncm <- ncm
+      self$descricao <- descricao
+      self$valor_cif <- valor_cif
+      self$aliquota <- aliquota
+    }
+  )
+)
+```
+
+---
+
+## Vantagens da OO
+
+- Organização do código
+- Reutilização de código
+- Encapsulamento de lógica
+- Criação de pipelines analíticos
+
+---
+
+## Vantagens da OO 
+### Organização do código
+
+Cada classe representa um conceito específico, facilitando a leitura e manutenção do código.
+
+Ex.: classe `ProdutoImportado` para representar produtos, classe `CalculadoraTarifaria` para cálculos.
+
+---
+
+## Vantagens da OO 
+### Reutilização de código
+
+Imagine uma classe `CalculadoraTarifaria`, que calcula a diferença entre os preços base dos produtos e gera uma série de relatórios. 
+
+Se quisermos adicionar um novo tipo de produto que possui características adicionais de tributação, podemos criar uma nova classe que herda da classe base, sem precisar modificar a lógica de cálculo e relatório da `CalculadoraTarifaria`.
+
+---
+
+## Vantagens da OO 
+### Reutilização de código
+
+Exemplo de cálculo do percentual de aumento do valor final em relação ao valor CIF:
+```python
+class CalculadoraTarifaria:
+    def percentual_aumento(self, produto):
+        valor_final = produto.valor_final()
+        valor_cif = produto.valor_cif
+        return ((valor_final - valor_cif) / valor_cif) * 100
+``` 
+
+---
+
+## Vantagens da OO 
+### Reutilização de código
+
+```{mermaid}
+classDiagram
+
+class ProdutoImportado{
+  ncm
+  valor_cif
+  aliquota_importacao
+  valor_final()
+}
+
+class ProdutoIndustrialImportado{
+  aliquota_ipi
+  aliquota_pis
+  aliquota_cofins
+  <<override>>
+  valor_final()*
+}
+
+ProdutoImportado <|-- ProdutoIndustrialImportado
+```
+
+
+---
+
+## Vantagens da OO 
+### Reutilização de código
+#### Exemplo de herança em Python
+```python
+class ProdutoIndustrialImportado(ProdutoImportado):
+    def __init__(self, ncm, valor_cif, aliquota_importacao, aliquota_ipi, aliquota_pis, aliquota_cofins):
+        super().__init__(ncm, valor_cif, aliquota_importacao)
+        self.aliquota_ipi = aliquota_ipi
+        self.aliquota_pis = aliquota_pis
+        self.aliquota_cofins = aliquota_cofins
+
+    def valor_final(self):
+        valor_base = super().valor_final()
+        return valor_base * (1 + self.aliquota_ipi + self.aliquota_pis + self.aliquota_cofins)
+```
+
+---
+
+## Vantagens da OO 
+### Reutilização de código
+##### Exemplo de herança em R
+```r
+
+ProdutoIndustrialImportado <- R6Class(
+ "ProdutoIndustrial",
+ inherit = ProdutoImportado,
+ public=list(
+  aliquota_ipi=NULL,
+  aliquota_pis=NULL,
+  aliquota_cofins=NULL,
+
+  initialize=function(ncm,valor_cif,aliquota_importacao,aliquota_ipi,aliquota_pis,aliquota_cofins){
+    super$initialize(ncm,valor_cif,aliquota_importacao)
+    self$aliquota_ipi <- aliquota_ipi
+    self$aliquota_pis <- aliquota_pis
+    self$aliquota_cofins <- aliquota_cofins
+  },
+
+  valor_final=function(){
+    valor_base <- super$valor_final()
+    valor_base * (1 + self$aliquota_ipi + self$aliquota_pis + self$aliquota_cofins)
+  }
+ )
+
+```
+
+---
+
+## Vantagens da OO 
+### Encapsulamento de lógica
+
+```{mermaid}
+classDiagram
+
+class CarregamentoProdutos{
+  carregar_produtos()
+}
+
+class CarregamentoProdutosCSV{
+  path_csv
+  carregar_produtos()
+}
+
+class CarregamentoProdutosAPI{
+  endpoint_api
+  carregar_produtos()
+}
+
+CarregamentoProdutos <|-- CarregamentoProdutosCSV
+CarregamentoProdutos <|-- CarregamentoProdutosAPI
+```
+
+---
+
+## Vantagens da OO 
+### Encapsulamento de lógica
+
+A lógica de carregamento dos dados está encapsulada dentro da classe `CarregamentoProdutos`.
+
+
+Classes podem ser usadas como "caixas pretas" que escondem a complexidade, facilitando o uso e a manutenção do código, inclusive com a possibilidade de especializar a lógica interna sem afetar o código que utiliza a classe.
+
+
+---
+
+
+## Vantagens da OO 
+### Criação de pipelines analíticos
+
+
+```{mermaid}
+flowchart LR
+A[Importação de dados NCM] --> B[Classe Produto]
+B --> C[Classe CalculadoraTarifaria]
+C --> D[Relatório de tarifas]
+```
+
+---
+
+## Exercício
+
+Criar as classes:
+
+**CarregamentoProdutos**
+
+Métodos:
+
+- carregar_produtos() : deve receber uma lista de produtos como parâmetro e retornar uma lista de objetos do tipo `ProdutoImportado` 
+
+**CarregamentoProdutosCSV**
+
+Atributos:
+
+- path_csv : caminho do arquivo CSV com os dados dos produtos, recebido como parâmetro no construtor
+
+---
+
+## Exercício (continuação)
+
+Criar as classes:
+
+**CalculadoraTarifaria**
+
+Métodos:
+
+- calcular_tarifa_total() : deve receber uma lista de produtos como parâmetro  no construtor e retornar o valor total das tarifas de importação
+- calcular_media_tarifas() : deve retornar a média das tarifas de importação dos produtos passados como parâmetro no construtor
+
+---
+
+## Exercício (continuação)
+
+Criar as classes:
+
+**Relatório**
+
+Métodos:
+
+- gera_relatorio() : deve receber uma lista de produtos e um objeto do tipo `CalculadoraTarifaria` como parâmetros e gerar um relatório com o valor final da soma de todos os produtos e a média das tarifas de importação, utilizando os métodos da classe `CalculadoraTarifaria` para obter os valores necessários. O relatório deve ser impresso no console.
+
+---
+
+## Exercício (continuação)
+
+Criar as classes:
+
+**PipelilineAnalitico**
+
+Atributos:
+
+- carregamento_produtos : objeto do tipo `CarregamentoProdutos` recebido como parâmetro no construtor
+- calculadora_tarifaria : objeto do tipo `CalculadoraTarifaria` recebido como parâmetro no construtor
+- relatorio : objeto do tipo `Relatório` recebido como parâmetro no construtor
+
+
+Métodos:
+
+- executar_pipeline() : deve executar as etapas do pipeline analítico, utilizando os objetos recebidos no construtor para carregar os produtos, calcular as tarifas e gerar o relatório.
+
+
+
+
