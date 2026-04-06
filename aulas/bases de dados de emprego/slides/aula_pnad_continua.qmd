@@ -1,0 +1,243 @@
+---
+title: "PNAD Continua"
+subtitle: "Pesquisa domiciliar para mercado de trabalho via API do IBGE"
+author: "Amilton Lobo Mendes Junior"
+format:
+  revealjs:
+    footer: "Cafe com Dados - Bases de Emprego (PNAD Continua)"
+---
+
+## Capa {.capa-slide}
+
+::: {.capa-wrap}
+![]({{< meta logo_path >}}){.capa-logo}
+
+# {{< meta title >}} {.capa-titulo}
+
+## {{< meta subtitle >}} {.capa-subtitulo}
+
+::: {.capa-org}
+{{< meta organizacao_nome >}}
+:::
+
+::: {.capa-unidade}
+Unidade: {{< meta organizacao_subtitulo >}}
+:::
+
+::: {.capa-prof}
+Professor: {{< meta professor_nome >}} | {{< meta professor_email >}}
+:::
+:::
+
+## Objetivo da aula
+
+- Compreender o papel da PNAD Continua no acompanhamento do mercado de trabalho
+- Diferenciar formalidade e informalidade
+- Consumir e manipular dados da PNAD Continua via API do IBGE
+
+---
+
+## O que e a PNAD Continua
+
+- Pesquisa por amostra de domicilios do IBGE
+- Cobertura de ocupados, desocupados e fora da forca de trabalho
+- Permite analise de informalidade e rendimento
+- Periodicidade trimestral (principal divulgacao)
+
+---
+
+## API do IBGE (SIDRA)
+
+- A PNAD Continua pode ser consultada pelo SIDRA em formato JSON
+- A API permite filtros por:
+  - periodo
+  - territorio
+  - variavel
+  - classificacoes (sexo, idade, escolaridade etc.)
+- Fluxo da aula: consultar API -> transformar tabela -> analisar
+
+---
+
+## Exemplo de endpoint
+
+Estrutura geral:
+
+`https://apisidra.ibge.gov.br/values/t/{tabela}/n1/all/v/{variavel}/p/{periodo}`
+
+Exemplo ilustrativo (ajustar tabela/variavel conforme recorte):
+
+`https://apisidra.ibge.gov.br/values/t/6381/n1/all/v/4099/p/last%2012`
+
+---
+
+## Conceitos centrais
+
+- **Populacao em idade de trabalhar**
+- **Forca de trabalho**
+- **Populacao ocupada**
+- **Populacao desocupada**
+- **Taxa de desocupacao**
+
+---
+
+## Formulas basicas
+
+- Taxa de desocupacao = desocupados / forca de trabalho
+- Taxa de participacao = forca de trabalho / populacao em idade de trabalhar
+- Taxa de informalidade = ocupados informais / ocupados
+
+---
+
+## Exemplo em Python: consulta a API do IBGE
+
+```python
+import requests
+import pandas as pd
+
+url = "https://apisidra.ibge.gov.br/values/t/6381/n1/all/v/4099/p/last%2012"
+dados = requests.get(url, timeout=30).json()
+
+# Primeira linha e metadado; as demais sao observacoes
+df = pd.DataFrame(dados[1:])
+print(df.head())
+print(df.columns.tolist())
+```
+
+---
+
+## Exemplo em R: consulta a API do IBGE
+
+```r
+library(httr2)
+library(jsonlite)
+library(dplyr)
+
+url <- "https://apisidra.ibge.gov.br/values/t/6381/n1/all/v/4099/p/last%2012"
+resp <- request(url) |> req_perform() |> resp_body_string()
+dados <- fromJSON(resp, simplifyDataFrame = TRUE)
+
+df <- as_tibble(dados[-1, ])
+print(head(df))
+print(names(df))
+```
+
+---
+
+## Exemplo em Python: limpeza basica para analise
+
+```python
+df = df.rename(columns={"V": "valor", "D2N": "periodo", "D1N": "brasil"})
+df["valor"] = pd.to_numeric(df["valor"], errors="coerce")
+df = df.dropna(subset=["valor"]) 
+
+resumo = df.groupby("periodo", as_index=False)["valor"].mean()
+print(resumo.tail())
+```
+
+---
+
+## Exemplo em R: limpeza basica para analise
+
+```r
+df <- df |>
+  rename(valor = V, periodo = D2N, brasil = D1N) |>
+  mutate(valor = as.numeric(valor)) |>
+  filter(!is.na(valor))
+
+resumo <- df |>
+  group_by(periodo) |>
+  summarise(media = mean(valor), .groups = "drop")
+
+print(tail(resumo))
+```
+
+---
+
+## Cruzamentos possiveis com a API
+
+- periodo x sexo
+- periodo x faixa etaria
+- periodo x escolaridade
+- UF x indicador de ocupacao/desocupacao
+- regiao x rendimento medio
+
+---
+
+## Atividade 1 (API + Python)
+
+Objetivo: baixar uma serie trimestral da PNAD Continua para o Brasil.
+
+Requisitos:
+
+- Consultar endpoint do SIDRA
+- Converter resposta JSON em DataFrame
+- Organizar colunas de periodo e valor
+- Plotar serie temporal
+
+---
+
+## Atividade 2 (API + R)
+
+Objetivo: comparar um indicador por sexo para os ultimos 12 trimestres.
+
+Requisitos:
+
+- Consultar API com classificacao por sexo
+- Limpar e tipar a coluna de valor
+- Calcular diferenca entre grupos
+- Comentar tendencias observadas
+
+---
+
+## Atividade 3 (API + SQL)
+
+Objetivo: carregar dados da API em uma tabela analitica e consultar via SQL.
+
+Requisitos:
+
+- Salvar extracao em tabela `pnad_api_raw`
+- Criar tabela tratada `pnad_api_tratada`
+- Calcular media movel de 4 trimestres
+- Entregar consulta SQL final com comentario
+
+---
+
+## Exemplo SQL: media movel trimestral
+
+```sql
+SELECT
+  periodo,
+  indicador,
+  valor,
+  AVG(valor) OVER (
+    PARTITION BY indicador
+    ORDER BY periodo
+    ROWS BETWEEN 3 PRECEDING AND CURRENT ROW
+  ) AS media_movel_4t
+FROM `seu_projeto.seu_dataset.pnad_api_tratada`
+ORDER BY indicador, periodo;
+```
+
+---
+
+## Perguntas para discussao
+
+- O desemprego esta convergindo entre regioes?
+- A informalidade aumentou ou caiu por faixa etaria?
+- Quais grupos tiveram maior recuperacao de rendimento?
+
+---
+
+## Cuidados metodologicos
+
+- Utilizar pesos amostrais nas estimativas
+- Verificar mudancas de questionario e notas metodologicas
+- Garantir comparabilidade temporal dos indicadores
+
+---
+
+## Encerramento
+
+- PNAD Continua oferece visao ampla de formalidade e informalidade
+- A API do IBGE acelera extracao e reproducao dos indicadores
+- Python, R e SQL podem compor um fluxo unico de analise

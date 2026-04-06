@@ -6,6 +6,24 @@ author: "Amilton Lobo Mendes Júnior"
 format: revealjs
 ---
 
+## Capa {.capa-slide}
+
+::: {.capa-wrap}
+![]({{< meta logo_path >}}){.capa-logo}
+
+# {{< meta title >}} {.capa-titulo}
+
+## {{< meta subtitle >}} {.capa-subtitulo}
+
+::: {.capa-org}
+{{< meta organizacao_nome >}}
+:::
+
+::: {.capa-prof}
+Professor: {{< meta professor_nome >}} | {{< meta professor_email >}}
+:::
+:::
+
 ## Objetivo da aula
 
 - Entender conceitos básicos de **orientação a objetos**

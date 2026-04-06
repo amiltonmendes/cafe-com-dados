@@ -1,0 +1,294 @@
+---
+title: "CAGED"
+subtitle: "Novo CAGED para analise do mercado formal"
+author: "Amilton Lobo Mendes Junior"
+format:
+  revealjs:
+    footer: "Cafe com Dados - Bases de Emprego (CAGED)"
+---
+
+## Capa {.capa-slide}
+
+::: {.capa-wrap}
+![]({{< meta logo_path >}}){.capa-logo}
+
+# {{< meta title >}} {.capa-titulo}
+
+## {{< meta subtitle >}} {.capa-subtitulo}
+
+::: {.capa-org}
+{{< meta organizacao_nome >}}
+:::
+
+::: {.capa-unidade}
+Unidade: {{< meta organizacao_subtitulo >}}
+:::
+
+::: {.capa-prof}
+Professor: {{< meta professor_nome >}} | {{< meta professor_email >}}
+:::
+:::
+
+## Objetivo da aula
+
+- Entender o que e o Novo CAGED
+- Entender o dominio das variaveis da base de movimentacoes
+- Praticar cruzamentos e manipulacao de dados com SQL
+
+---
+
+## O que e o CAGED
+
+- Cadastro Geral de Empregados e Desempregados
+- Fonte administrativa do Ministerio do Trabalho e Emprego
+- Cobertura: empregos com carteira assinada (setor formal)
+- Periodicidade: mensal
+
+---
+
+## Fonte de referencia do layout
+
+- Arquivo utilizado na aula:
+  `./dados/dominio/Layout Nao-identificado Novo Caged Movimentacao.xlsx`
+- O arquivo define:
+  - nome da variavel
+  - descricao
+  - formato/codigo
+  - dominio de valores (abas auxiliares)
+
+---
+
+## Estrutura geral da tabela de movimentacoes
+
+| Bloco | Variaveis de exemplo |
+|---|---|
+| Tempo | competenciamov, competenciadec, competenciaexc |
+| Territorio | regiao, uf, municipio |
+| Setor | secao, subclasse |
+| Trabalhador | idade, sexo, racacor, graudeinstrucao |
+| Vinculo e evento | categoria, tipomovimentacao, saldomovimentacao |
+| Contrato e condicao | horascontratuais, salario, indtrabintermitente, indtrabparcial |
+
+---
+
+## Unidade de analise
+
+| Dimensao | Exemplos |
+|---|---|
+| Tempo | Competencia (mes/ano) |
+| Territorio | UF, municipio |
+| Setor | Secao CNAE e subclasse CNAE |
+| Vinculo | Categoria, tipo de movimentacao e saldo |
+
+---
+
+## Variaveis centrais para analise
+
+- `saldomovimentacao`: indica se o registro entra no saldo liquido
+- `tipomovimentacao`: tipo do evento (admissao, desligamento etc.)
+- `categoria`: categoria do trabalhador (ex.: geral, aprendiz, intermitente)
+- `secao` e `subclasse`: atividade economica (CNAE 2.0)
+- `uf` e `municipio`: territorializacao da analise
+- `salario` e `unidadesalariocodigo`: remuneracao declarada e unidade
+
+---
+
+## Dominios importantes (exemplos do layout)
+
+| Variavel | Exemplos de dominio |
+|---|---|
+| regiao | 1 Norte, 2 Nordeste, 3 Sudeste, 4 Sul, 5 Centro-Oeste, 9 Nao identificado |
+| sexo | 1 Homem, 3 Mulher, 9 Nao identificado |
+| racacor | 1 Branca, 2 Preta, 3 Parda, 4 Amarela, 5 Indigena |
+| indtrabintermitente | 0 Nao, 1 Sim, 9 Nao identificado |
+| indicadoraprendiz | 0 Nao, 1 Sim, 9 Nao identificado |
+
+---
+
+## Tipo de movimentacao (dominio resumido)
+
+Codigos frequentes:
+
+- `10`: Admissao por primeiro emprego
+- `20`: Admissao por reemprego
+- `25`: Admissao por contrato por prazo determinado
+- `31`: Desligamento sem justa causa
+- `32`: Desligamento com justa causa
+- `40`: Desligamento a pedido
+- `43`: Termino de contrato por prazo determinado
+- `70`: Admissao por transferencia
+- `80`: Desligamento por transferencia
+
+Use sempre o dicionario completo para codigos menos frequentes.
+
+---
+
+## Cruzamentos analiticos recomendados
+
+- `competenciamov x uf x secao`: dinamica mensal setorial por UF
+- `competenciamov x sexo x racacor`: analise de composicao de admissoes/desligamentos
+- `tipomovimentacao x categoria`: perfil do tipo de vinculo por evento
+- `municipio x subclasse`: especializacao local da geracao/perda de postos
+- `salario x graudeinstrucao`: distribuicao salarial por escolaridade
+
+---
+
+## Regras de manipulacao antes dos indicadores
+
+- Tratar codigos `9`, `99`, `999` como "Nao identificado" quando aplicavel
+- Padronizar `competenciamov` para data (`AAAAMM` -> primeiro dia do mes)
+- Filtrar valores invalidos de salario e horas
+- Separar consultas de admissao e desligamento por `tipomovimentacao`
+- Documentar cada regra de limpeza aplicada
+
+---
+
+## Exemplo SQL 1: saldo mensal por UF
+
+```sql
+SELECT
+  competenciamov,
+  uf,
+  SUM(saldomovimentacao) AS saldo
+FROM `seu_projeto.seu_dataset.caged_movimentacao`
+GROUP BY 1, 2
+ORDER BY 1, 2;
+```
+
+---
+
+## Exemplo SQL 2: admissoes e desligamentos por secao
+
+```sql
+SELECT
+  competenciamov,
+  secao,
+  SUM(CASE WHEN tipomovimentacao IN (10, 20, 25, 35, 70, 97) THEN 1 ELSE 0 END) AS admissoes,
+  SUM(CASE WHEN tipomovimentacao IN (31, 32, 33, 40, 43, 45, 50, 60, 80, 90, 98) THEN 1 ELSE 0 END) AS desligamentos
+FROM `seu_projeto.seu_dataset.caged_movimentacao`
+GROUP BY 1, 2
+ORDER BY 1, 2;
+```
+
+---
+
+## Exemplo SQL 3: salario medio por escolaridade e sexo
+
+```sql
+SELECT
+  competenciamov,
+  graudeinstrucao,
+  sexo,
+  AVG(salario) AS salario_medio,
+  COUNT(*) AS qtd_registros
+FROM `seu_projeto.seu_dataset.caged_movimentacao`
+WHERE salario IS NOT NULL
+  AND salario > 0
+GROUP BY 1, 2, 3
+ORDER BY 1, 2, 3;
+```
+
+---
+
+## Atividade 1 (SQL)
+
+Objetivo: identificar as 10 UFs com maior saldo acumulado no ano.
+
+Requisitos:
+
+- Considerar `competenciamov` do ano escolhido
+- Agregar `saldomovimentacao` por UF
+- Ordenar do maior para o menor saldo
+- Entregar consulta SQL comentada
+
+---
+
+## Atividade 2 (SQL)
+
+Objetivo: comparar admissoes e desligamentos por `secao` para 2 meses.
+
+Requisitos:
+
+- Escolher dois meses consecutivos
+- Usar `tipomovimentacao` para separar entrada e saida
+- Calcular variacao percentual entre os meses
+- Destacar as 5 secoes com maior piora do saldo
+
+---
+
+## Atividade 3 (SQL)
+
+Objetivo: analisar diferencas salariais por escolaridade.
+
+Requisitos:
+
+- Usar `graudeinstrucao` e `salario`
+- Excluir codigos "Nao identificado"
+- Calcular media, mediana aproximada e contagem
+- Discutir limitacoes da variavel salario declarada
+
+---
+
+## Perguntas para discussao
+
+- Quais UFs lideram a criacao liquida de vagas?
+- Quais secoes CNAE concentraram maior rotatividade?
+- Em quais perfis de trabalhador ha maior perda de postos?
+- O que muda no resultado quando removemos "Nao identificado"?
+
+---
+
+## Cuidados metodologicos
+
+- Revisoes de declaracoes podem alterar resultados
+- Comparacoes devem manter o mesmo recorte temporal e territorial
+- Sempre documentar regras de limpeza e mapeamento de codigos
+
+---
+
+## Biblioteca SDIC para consulta do CAGED
+
+- A biblioteca da SDIC pode ser usada para padronizar acesso aos dados
+- Beneficios no fluxo da aula:
+  - centraliza autenticacao e parametros de consulta
+  - reduz codigo repetitivo de extracao
+  - facilita reproducao das consultas em turma
+
+Exemplo de uso em Python (ajustar nome/metodos conforme versao instalada):
+
+```python
+from sdic import caged
+
+cliente = caged.Cliente(autenticacao="interativa")
+df = cliente.consultar_movimentacao(
+    competencia_inicio="2024-01",
+    competencia_fim="2024-12",
+    uf="35"
+)
+
+print(df.head())
+```
+
+Exemplo de uso em R (ajustar nome/funcoes conforme pacote interno):
+
+```r
+library(sdic)
+
+cliente <- caged_cliente(autenticacao = "interativa")
+df <- caged_consultar_movimentacao(
+  cliente = cliente,
+  competencia_inicio = "2024-01",
+  competencia_fim = "2024-12",
+  uf = "35"
+)
+
+head(df)
+```
+
+---
+
+## Encerramento
+
+- CAGED e base central para monitoramento de emprego formal no curto prazo
+- Dominar variaveis e dominios e essencial para analises confiaveis
+- SQL bem estruturado acelera exploracao, limpeza e geracao de indicadores
