@@ -1,0 +1,205 @@
+[
+  {
+    "objectID": "slides/aula_poo_comex.html#capa",
+    "href": "slides/aula_poo_comex.html#capa",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Capa",
+    "text": "Capa\n\n\n\nIntrodução à programação orientada a objetos\n\n\n\nCálculo de tarifa de importação\n\nCafe com Dados\n\n\nProfessor: Amilton Lobo Mendes Junior | professor@exemplo.com"
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#section-1",
+    "href": "slides/aula_poo_comex.html#section-1",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Cálculo de tarifa de importação",
+    "text": "Cálculo de tarifa de importação\n\nCafe com Dados\n\n\nProfessor: Amilton Lobo Mendes Junior | professor@exemplo.com"
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#objetivo-da-aula",
+    "href": "slides/aula_poo_comex.html#objetivo-da-aula",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Objetivo da aula",
+    "text": "Objetivo da aula\n\nEntender conceitos básicos de orientação a objetos\nAplicar em um problema real de comércio exterior\nCalcular tarifas de importação\nAplicação com Python ou R"
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#problema-prático",
+    "href": "slides/aula_poo_comex.html#problema-prático",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Problema prático",
+    "text": "Problema prático\nTemos uma lista de produtos importados:\n\n\n\nNCM\nProduto\nCIF (USD)\n\n\n\n\n8471.30.12\nNotebook\n1000\n\n\n8517.12.31\nSmartphone\n800\n\n\n8528.72.00\nTelevisor\n1200\n\n\n\nQueremos calcular:\n\ntarifa de importação\nvalor final do produto"
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#estrutura-conceitual",
+    "href": "slides/aula_poo_comex.html#estrutura-conceitual",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Estrutura conceitual",
+    "text": "Estrutura conceitual\n\n\n\n\n\nclassDiagram\nclass ProdutoImportado{\n  ncm\n  descricao\n  valor_cif\n  aliquota\n  tarifa()\n  valor_final()\n}"
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#conceitos-fundamentais",
+    "href": "slides/aula_poo_comex.html#conceitos-fundamentais",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Conceitos fundamentais",
+    "text": "Conceitos fundamentais\n\n\n\n\n\n\n\n\nConceito\nDefinição\nExemplo\n\n\n\n\nClasse\nDefinição de uma estrutura que representa um conceito ou objeto do mundo real\nProdutoImportado\n\n\nObjeto\nMaterialização de uma classe\nNotebook importado\n\n\nAtributo\nCaracterística ou propriedade de um objeto\nncm\n\n\nMétodo\nFunção definida dentro de uma classe, comportamento esperado de um objeto\ncalcular_tarifa()\n\n\nConstrutor\nMétodo especial que inicializa os atributos da classe\ninit()"
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#classe-em-python",
+    "href": "slides/aula_poo_comex.html#classe-em-python",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Classe em Python",
+    "text": "Classe em Python\nclass ProdutoImportado:\n\n    def __init__(self, ncm, descricao, valor_cif, aliquota):\n        self.ncm = ncm\n        self.descricao = descricao\n        self.valor_cif = valor_cif\n        self.aliquota = aliquota\n\n    def tarifa_importacao(self):\n        return self.valor_cif * self.aliquota\n\n    def valor_final(self):\n        return self.valor_cif + self.tarifa_importacao()"
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#usando-a-classe-python",
+    "href": "slides/aula_poo_comex.html#usando-a-classe-python",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Usando a classe ( Python )",
+    "text": "Usando a classe ( Python )\nnotebook = ProdutoImportado(\n    \"8471.30.12\",\n    \"Notebook\",\n    1000,\n    0.14\n)\n\nnotebook.tarifa_importacao()\nnotebook.valor_final()"
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#classe-equivalente-em-r",
+    "href": "slides/aula_poo_comex.html#classe-equivalente-em-r",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Classe equivalente em R",
+    "text": "Classe equivalente em R\nlibrary(R6)\n\nProdutoImportado &lt;- R6Class(\n \"ProdutoImportado\",\n public=list(\n\n  ncm=NULL,\n  descricao=NULL,\n  valor_cif=NULL,\n  aliquota=NULL,\n\n  initialize=function(ncm,descricao,valor_cif,aliquota){\n    self$ncm &lt;- ncm\n    self$descricao &lt;- descricao\n    self$valor_cif &lt;- valor_cif\n    self$aliquota &lt;- aliquota\n  },\n\n  tarifa_importacao=function(){\n    self$valor_cif * self$aliquota\n  },\n\n  valor_final=function(){\n    self$valor_cif + self$tarifa_importacao()\n  }\n )\n)"
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#usando-a-classe-r",
+    "href": "slides/aula_poo_comex.html#usando-a-classe-r",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Usando a classe (R)",
+    "text": "Usando a classe (R)\nnotebook &lt;- ProdutoImportado$new(\n \"8471.30.12\",\n \"Notebook\",\n 1000,\n 0.14\n)\n\nnotebook$tarifa_importacao()\nnotebook$valor_final()"
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#exemplo-com-lista-de-produtos-python",
+    "href": "slides/aula_poo_comex.html#exemplo-com-lista-de-produtos-python",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Exemplo com lista de produtos (Python)",
+    "text": "Exemplo com lista de produtos (Python)\nprodutos = [\n    ProdutoImportado(\"8471.30.12\",\"Notebook\",1000,0.14),\n    ProdutoImportado(\"8517.12.31\",\"Smartphone\",800,0.16),\n    ProdutoImportado(\"8528.72.00\",\"Televisor\",1200,0.20)\n]\n\nfor p in produtos:\n    print(p.descricao, p.valor_final())"
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#exemplo-com-lista-de-produtos-r",
+    "href": "slides/aula_poo_comex.html#exemplo-com-lista-de-produtos-r",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Exemplo com lista de produtos (R)",
+    "text": "Exemplo com lista de produtos (R)\nprodutos &lt;- list(\n  ProdutoImportado$new(\"8471.30.12\",\"Notebook\",1000,0.14),\n  ProdutoImportado$new(\"8517.12.31\",\"Smartphone\",800,0.16),\n  ProdutoImportado$new(\"8528.72.00\",\"Televisor\",1200,0.20)\n)\n\nlapply(produtos, function(p) p$valor_final())"
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#construtores",
+    "href": "slides/aula_poo_comex.html#construtores",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Construtores",
+    "text": "Construtores\n\nEm Python: método __init__()\nEm R: método initialize()\nPermitem criar objetos com atributos pré-definidos"
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#exemplo-de-construtor-em-python",
+    "href": "slides/aula_poo_comex.html#exemplo-de-construtor-em-python",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Exemplo de construtor em Python",
+    "text": "Exemplo de construtor em Python\nclass ProdutoImportado:\n\n    def __init__(self, ncm, valor_cif, aliquota, descricao=\"Descrição não disponível\"):\n        self.ncm = ncm\n        self.descricao = descricao\n        self.valor_cif = valor_cif\n        self.aliquota = aliquota"
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#exemplo-de-construtor-em-r",
+    "href": "slides/aula_poo_comex.html#exemplo-de-construtor-em-r",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Exemplo de construtor em R",
+    "text": "Exemplo de construtor em R\nProdutoImportado &lt;- R6Class(\n \"ProdutoImportado\",\n  public=list(\n  \n    ncm=NULL,\n    descricao=NULL,\n    valor_cif=NULL,\n    aliquota=NULL,\n  \n    initialize=function(ncm,valor_cif,aliquota,descricao=\"Descrição não disponível\"){\n      self$ncm &lt;- ncm\n      self$descricao &lt;- descricao\n      self$valor_cif &lt;- valor_cif\n      self$aliquota &lt;- aliquota\n    }\n  )\n)"
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#vantagens-da-oo",
+    "href": "slides/aula_poo_comex.html#vantagens-da-oo",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Vantagens da OO",
+    "text": "Vantagens da OO\n\nOrganização do código\nReutilização de código\nEncapsulamento de lógica\nCriação de pipelines analíticos"
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#vantagens-da-oo-1",
+    "href": "slides/aula_poo_comex.html#vantagens-da-oo-1",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Vantagens da OO",
+    "text": "Vantagens da OO\nOrganização do código\nCada classe representa um conceito específico, facilitando a leitura e manutenção do código.\nEx.: classe ProdutoImportado para representar produtos, classe CalculadoraTarifaria para cálculos."
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#vantagens-da-oo-2",
+    "href": "slides/aula_poo_comex.html#vantagens-da-oo-2",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Vantagens da OO",
+    "text": "Vantagens da OO\nReutilização de código\nImagine uma classe CalculadoraTarifaria, que calcula a diferença entre os preços base dos produtos e gera uma série de relatórios.\nSe quisermos adicionar um novo tipo de produto que possui características adicionais de tributação, podemos criar uma nova classe que herda da classe base, sem precisar modificar a lógica de cálculo e relatório da CalculadoraTarifaria."
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#vantagens-da-oo-3",
+    "href": "slides/aula_poo_comex.html#vantagens-da-oo-3",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Vantagens da OO",
+    "text": "Vantagens da OO\nReutilização de código\nExemplo de cálculo do percentual de aumento do valor final em relação ao valor CIF:\nclass CalculadoraTarifaria:\n    def percentual_aumento(self, produto):\n        valor_final = produto.valor_final()\n        valor_cif = produto.valor_cif\n        return ((valor_final - valor_cif) / valor_cif) * 100"
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#vantagens-da-oo-4",
+    "href": "slides/aula_poo_comex.html#vantagens-da-oo-4",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Vantagens da OO",
+    "text": "Vantagens da OO\nReutilização de código\n\n\n\n\n\nclassDiagram\n\nclass ProdutoImportado{\n  ncm\n  valor_cif\n  aliquota_importacao\n  valor_final()\n}\n\nclass ProdutoIndustrialImportado{\n  aliquota_ipi\n  aliquota_pis\n  aliquota_cofins\n  &lt;&lt;override&gt;&gt;\n  valor_final()*\n}\n\nProdutoImportado &lt;|-- ProdutoIndustrialImportado"
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#vantagens-da-oo-5",
+    "href": "slides/aula_poo_comex.html#vantagens-da-oo-5",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Vantagens da OO",
+    "text": "Vantagens da OO\nReutilização de código\nExemplo de herança em Python\nclass ProdutoIndustrialImportado(ProdutoImportado):\n    def __init__(self, ncm, valor_cif, aliquota_importacao, aliquota_ipi, aliquota_pis, aliquota_cofins):\n        super().__init__(ncm, valor_cif, aliquota_importacao)\n        self.aliquota_ipi = aliquota_ipi\n        self.aliquota_pis = aliquota_pis\n        self.aliquota_cofins = aliquota_cofins\n\n    def valor_final(self):\n        valor_base = super().valor_final()\n        return valor_base * (1 + self.aliquota_ipi + self.aliquota_pis + self.aliquota_cofins)"
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#vantagens-da-oo-6",
+    "href": "slides/aula_poo_comex.html#vantagens-da-oo-6",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Vantagens da OO",
+    "text": "Vantagens da OO\nReutilização de código\nExemplo de herança em R\n\nProdutoIndustrialImportado &lt;- R6Class(\n \"ProdutoIndustrial\",\n inherit = ProdutoImportado,\n public=list(\n  aliquota_ipi=NULL,\n  aliquota_pis=NULL,\n  aliquota_cofins=NULL,\n\n  initialize=function(ncm,valor_cif,aliquota_importacao,aliquota_ipi,aliquota_pis,aliquota_cofins){\n    super$initialize(ncm,valor_cif,aliquota_importacao)\n    self$aliquota_ipi &lt;- aliquota_ipi\n    self$aliquota_pis &lt;- aliquota_pis\n    self$aliquota_cofins &lt;- aliquota_cofins\n  },\n\n  valor_final=function(){\n    valor_base &lt;- super$valor_final()\n    valor_base * (1 + self$aliquota_ipi + self$aliquota_pis + self$aliquota_cofins)\n  }\n )"
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#vantagens-da-oo-7",
+    "href": "slides/aula_poo_comex.html#vantagens-da-oo-7",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Vantagens da OO",
+    "text": "Vantagens da OO\nEncapsulamento de lógica\n\n\n\n\n\nclassDiagram\n\nclass CarregamentoProdutos{\n  carregar_produtos()\n}\n\nclass CarregamentoProdutosCSV{\n  path_csv\n  carregar_produtos()\n}\n\nclass CarregamentoProdutosAPI{\n  endpoint_api\n  carregar_produtos()\n}\n\nCarregamentoProdutos &lt;|-- CarregamentoProdutosCSV\nCarregamentoProdutos &lt;|-- CarregamentoProdutosAPI"
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#vantagens-da-oo-8",
+    "href": "slides/aula_poo_comex.html#vantagens-da-oo-8",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Vantagens da OO",
+    "text": "Vantagens da OO\nEncapsulamento de lógica\nA lógica de carregamento dos dados está encapsulada dentro da classe CarregamentoProdutos.\nClasses podem ser usadas como “caixas pretas” que escondem a complexidade, facilitando o uso e a manutenção do código, inclusive com a possibilidade de especializar a lógica interna sem afetar o código que utiliza a classe."
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#vantagens-da-oo-9",
+    "href": "slides/aula_poo_comex.html#vantagens-da-oo-9",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Vantagens da OO",
+    "text": "Vantagens da OO\nCriação de pipelines analíticos\n\n\n\n\n\nflowchart LR\nA[Importação de dados NCM] --&gt; B[Classe Produto]\nB --&gt; C[Classe CalculadoraTarifaria]\nC --&gt; D[Relatório de tarifas]"
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#exercício",
+    "href": "slides/aula_poo_comex.html#exercício",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Exercício",
+    "text": "Exercício\nCriar as classes:\nCarregamentoProdutos\nMétodos:\n\ncarregar_produtos() : deve receber uma lista de produtos como parâmetro e retornar uma lista de objetos do tipo ProdutoImportado\n\nCarregamentoProdutosCSV\nAtributos:\n\npath_csv : caminho do arquivo CSV com os dados dos produtos, recebido como parâmetro no construtor"
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#exercício-continuação",
+    "href": "slides/aula_poo_comex.html#exercício-continuação",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Exercício (continuação)",
+    "text": "Exercício (continuação)\nCriar as classes:\nCalculadoraTarifaria\nMétodos:\n\ncalcular_tarifa_total() : deve receber uma lista de produtos como parâmetro no construtor e retornar o valor total das tarifas de importação\ncalcular_media_tarifas() : deve retornar a média das tarifas de importação dos produtos passados como parâmetro no construtor"
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#exercício-continuação-1",
+    "href": "slides/aula_poo_comex.html#exercício-continuação-1",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Exercício (continuação)",
+    "text": "Exercício (continuação)\nCriar as classes:\nRelatório\nMétodos:\n\ngera_relatorio() : deve receber uma lista de produtos e um objeto do tipo CalculadoraTarifaria como parâmetros e gerar um relatório com o valor final da soma de todos os produtos e a média das tarifas de importação, utilizando os métodos da classe CalculadoraTarifaria para obter os valores necessários. O relatório deve ser impresso no console."
+  },
+  {
+    "objectID": "slides/aula_poo_comex.html#exercício-continuação-2",
+    "href": "slides/aula_poo_comex.html#exercício-continuação-2",
+    "title": "Introdução à programação orientada a objetos",
+    "section": "Exercício (continuação)",
+    "text": "Exercício (continuação)\nCriar as classes:\nPipelilineAnalitico\nAtributos:\n\ncarregamento_produtos : objeto do tipo CarregamentoProdutos recebido como parâmetro no construtor\ncalculadora_tarifaria : objeto do tipo CalculadoraTarifaria recebido como parâmetro no construtor\nrelatorio : objeto do tipo Relatório recebido como parâmetro no construtor\n\nMétodos:\n\nexecutar_pipeline() : deve executar as etapas do pipeline analítico, utilizando os objetos recebidos no construtor para carregar os produtos, calcular as tarifas e gerar o relatório."
+  }
+]
