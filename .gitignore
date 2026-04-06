@@ -1,1 +1,5 @@
-dados/comex/movimentacoes/*
+/.quarto/
+**/*.quarto_ipynb
+/_site/
+/README.html
+/README_files/
