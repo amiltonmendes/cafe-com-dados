@@ -1,0 +1,14 @@
+project:
+  type: website
+
+metadata-files:
+  - _variables.yml
+
+website:
+  title: "Git Flow e Controle de Versão"
+  navbar:
+    left:
+      - text: "Slides"
+        href: slides/aula_gitflow.html
+  
+format: revealjs

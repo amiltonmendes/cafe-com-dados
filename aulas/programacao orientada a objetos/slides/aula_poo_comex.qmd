@@ -72,9 +72,24 @@ class ProdutoImportado{
 |---|---|---|
 Classe |  Definição de uma estrutura que representa um conceito ou objeto do mundo real | ProdutoImportado | 
 Objeto | Materialização de uma classe | Notebook importado | 
+
+---
+
+## Conceitos fundamentais
+
+| Conceito | Definição | Exemplo |
+|---|---|---|
 Atributo | Característica ou propriedade de um objeto | ncm | 
 Método | Função definida dentro de uma classe, comportamento esperado de um objeto | calcular_tarifa() 
+
+---
+
+## Conceitos fundamentais
+
+| Conceito | Definição | Exemplo |
+|---|---|---|
 Construtor  | Método especial que inicializa os atributos da classe | __init__() | 
+
 
 ---
 
@@ -261,19 +276,6 @@ Imagine uma classe `CalculadoraTarifaria`, que calcula a diferença entre os pre
 
 Se quisermos adicionar um novo tipo de produto que possui características adicionais de tributação, podemos criar uma nova classe que herda da classe base, sem precisar modificar a lógica de cálculo e relatório da `CalculadoraTarifaria`.
 
----
-
-## Vantagens da OO 
-### Reutilização de código
-
-Exemplo de cálculo do percentual de aumento do valor final em relação ao valor CIF:
-```python
-class CalculadoraTarifaria:
-    def percentual_aumento(self, produto):
-        valor_final = produto.valor_final()
-        valor_cif = produto.valor_cif
-        return ((valor_final - valor_cif) / valor_cif) * 100
-``` 
 
 ---
 
@@ -300,6 +302,21 @@ class ProdutoIndustrialImportado{
 
 ProdutoImportado <|-- ProdutoIndustrialImportado
 ```
+
+
+---
+
+## Vantagens da OO 
+### Reutilização de código
+
+Exemplo de cálculo do percentual de aumento do valor final em relação ao valor CIF:
+```python
+class CalculadoraTarifaria:
+    def percentual_aumento(self, produto):
+        valor_final = produto.valor_final()
+        valor_cif = produto.valor_cif
+        return ((valor_final - valor_cif) / valor_cif) * 100
+``` 
 
 
 ---
@@ -413,6 +430,12 @@ Métodos:
 
 - carregar_produtos() : deve receber uma lista de produtos como parâmetro e retornar uma lista de objetos do tipo `ProdutoImportado` 
 
+---
+
+## Exercício
+
+Criar as classes:
+
 **CarregamentoProdutosCSV**
 
 Atributos:
@@ -456,13 +479,24 @@ Atributos:
 
 - carregamento_produtos : objeto do tipo `CarregamentoProdutos` recebido como parâmetro no construtor
 - calculadora_tarifaria : objeto do tipo `CalculadoraTarifaria` recebido como parâmetro no construtor
+
+
+---
+
+## Exercício (continuação)
+
+Criar as classes:
+
+**PipelilineAnalitico**
+
+Atributos:
+
 - relatorio : objeto do tipo `Relatório` recebido como parâmetro no construtor
 
 
 Métodos:
 
 - executar_pipeline() : deve executar as etapas do pipeline analítico, utilizando os objetos recebidos no construtor para carregar os produtos, calcular as tarifas e gerar o relatório.
-
 
 
 

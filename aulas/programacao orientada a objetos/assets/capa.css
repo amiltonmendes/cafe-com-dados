@@ -1,0 +1,38 @@
+.capa-slide {
+  text-align: center;
+}
+
+.capa-wrap {
+  display: grid;
+  justify-items: center;
+  gap: 0.6rem;
+  padding-top: 1.2rem;
+}
+
+.capa-logo {
+  width: min(48vw, 420px);
+  height: auto;
+  margin-bottom: 0.6rem;
+}
+
+.capa-titulo {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.capa-subtitulo {
+  font-size: 1.15rem;
+  margin: 0;
+  color: #444;
+}
+
+.capa-org {
+  font-size: 1rem;
+  margin-top: 0.8rem;
+  color: #7a3e10;
+}
+
+.capa-prof {
+  font-size: 0.9rem;
+  color: #555;
+}
