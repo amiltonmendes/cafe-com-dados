@@ -1,4 +1,5 @@
 # Exemplo prático: Análise de Vendas - Alteração feita por Oscar a partir da branch 'desenvolvimento'
+# Nova alteração a partir do desenvolvimento.
 # Este arquivo será usado para demonstrar fluxo Git
 
 # Carregar bibliotecas necessárias
