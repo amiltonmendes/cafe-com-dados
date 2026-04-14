@@ -168,6 +168,38 @@ git push -u origin main
 
 ---
 
+## Ciclo de vida no Git: add -> commit -> push
+
+```{mermaid}
+flowchart LR
+  W[Working Directory<br/>arquivos editados] -->|git add| S[Staging Area<br/>mudancas selecionadas]
+  S -->|git commit| L[Repositorio local<br/>historico versionado]
+  L -->|git push| R[Repositorio remoto<br/>GitHub/GitLab]
+```
+
+### Como pensar nesse ciclo
+
+- `git add`: escolhe exatamente o que vai entrar no proximo snapshot
+- `git commit`: salva um ponto do historico no seu repositorio local
+- `git push`: publica os commits locais no repositorio remoto
+
+### Exemplo rapido
+```bash
+# 1) voce altera arquivos no projeto
+git status
+
+# 2) envia mudancas para a area de preparo
+git add analise_vendas.R
+
+# 3) cria um commit com mensagem clara
+git commit -m "Adiciona analise de vendas por regiao"
+
+# 4) publica no remoto
+git push origin feature/analise-vendas
+```
+
+---
+
 ## Comandos essenciais - Branches
 
 ### Criando e navegando
@@ -330,7 +362,11 @@ git checkout -b feature/analise-vendas
 git add analise_vendas.R
 git commit -m "Adiciona análise de vendas por região"
 
-# 5. Push
+# 5. Sincronize com remoto antes do push (se a branch já existir no remoto)
+git pull --rebase origin feature/analise-vendas
+# se houver conflito: resolva arquivos, git add ., git rebase --continue
+
+# 6. Push
 git push origin feature/analise-vendas
 ```
 
@@ -339,14 +375,16 @@ git push origin feature/analise-vendas
 2. Digite: `feature/analise-vendas`
 3. Edite arquivos na interface
 4. **Source Control** → Stage → Commit
-5. **Sync Changes**
+5. **Pull (Rebase)** da branch remota (quando ja existir) e resolver conflitos localmente
+6. **Sync Changes**
 
 ### Via RStudio
 1. **Git tab** → New Branch
 2. Nome: `feature/analise-vendas`
 3. Edite arquivos no editor
 4. **Git tab** → Staged → Commit
-5. **Push**
+5. **Pull** da branch (quando ja existir) e resolver conflitos
+6. **Push**
 
 :::
 
