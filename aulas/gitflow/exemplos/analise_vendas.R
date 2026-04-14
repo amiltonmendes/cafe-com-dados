@@ -1,4 +1,4 @@
-# Exemplo prático: Análise de Vendas
+# Exemplo prático: Análise de Vendas - Alteração Oscar
 # Este arquivo será usado para demonstrar fluxo Git
 
 # Carregar bibliotecas necessárias
