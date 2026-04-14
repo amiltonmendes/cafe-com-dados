@@ -1,0 +1,16 @@
+name: gitflow-aula
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.12
+  - pip
+  - git
+  - quarto
+  - r-base
+  - r-dplyr
+  - r-ggplot2
+  - pip:
+      - pandas
+      - matplotlib
+      - seaborn

@@ -1,0 +1,11 @@
+---
+title: "Git Flow e Controle de Versao"
+format: html
+---
+
+# Aula de Git Flow
+
+Esta pagina inicial evita redirecionamentos para arquivos inexistentes.
+
+- Abrir slides: [aula_gitflow.html](slides/aula_gitflow.html)
+- Fonte dos slides: [aula_gitflow.qmd](slides/aula_gitflow.qmd)

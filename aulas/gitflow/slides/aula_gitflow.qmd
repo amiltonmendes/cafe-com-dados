@@ -1,0 +1,702 @@
+---
+title: "Git Flow e Controle de Versão"
+subtitle: "Gestão eficiente de código e colaboração"
+author: "Amilton Lobo Mendes Júnior"
+organizacao_nome: "Cafe com Dados"
+organizacao_subtitulo: "Ensino aplicado de dados"
+logo_path: "../assets/logo.png"
+professor_nome: "Amilton Lobo Mendes Junior"
+professor_email: "amilton.lobo@mdic.gov.br"
+format: 
+  revealjs:
+    theme: white
+    slide-number: true
+    preview-links: auto
+    chalkboard: true
+    scrollable: true
+    logo: ../assets/logo.png
+    mermaid:
+      theme: default
+---
+
+## Capa {.capa-slide}
+
+::: {.capa-wrap}
+![]({{< meta logo_path >}}){.capa-logo}
+
+# {{< meta title >}} {.capa-titulo}
+
+## {{< meta subtitle >}} {.capa-subtitulo}
+
+::: {.capa-org}
+{{< meta organizacao_nome >}}
+:::
+
+::: {.capa-prof}
+Professor: {{< meta professor_nome >}} | {{< meta professor_email >}}
+:::
+:::
+
+## Objetivos da aula
+
+- Entender a **filosofia** do Git Flow
+- Aprender os **comandos essenciais** para controle de versão
+- Compreender **fluxos de trabalho** em equipe
+- Praticar criação de **branches** e **merge requests**
+- Comparar ferramentas: **VS Code** vs **RStudio/Posit**
+
+---
+
+## O que é controle de versão?
+
+::: {.incremental}
+- **Histórico completo** de mudanças no código
+- **Rastreamento** de quem fez o quê e quando
+- **Colaboração** simultânea entre desenvolvedores
+- **Recuperação** de versões anteriores
+- **Backup** distribuído do projeto
+:::
+
+::: {.fragment}
+> **Analogia**: Como o "Ctrl+Z" do seu editor, mas para projetos inteiros!
+:::
+
+---
+
+## Por que usar Git Flow?
+
+### Problemas sem controle de versão:
+
+::: {.incremental}
+- 📁 `projeto_final.R`, `projeto_final_v2.R`, `projeto_final_DEFINITIVO.R`
+- 🤝 Dificulta colaboração em equipe
+- 💥 Perda de código por sobrescrever arquivos
+- ❓ Não sabe qual versão está funcionando
+- 📧 Envio de códigos por email
+:::
+
+---
+
+## Filosofia do Git Flow
+
+### Modelo de ramificação (branching)
+
+::: columns
+::: {.column width="50%"}
+**Branch Principal (main/master)**
+- Código estável e funcional
+- Pronto para produção
+
+**Branches de Feature**
+- Desenvolvimento de funcionalidades
+- Uma feature por branch
+:::
+
+::: {.column width="50%"}
+**Branches de Release**
+- Preparação para lançamento
+- Testes finais e correções
+
+**Branches de Hotfix**
+- Correções urgentes em produção
+:::
+:::
+
+---
+
+## Fluxo básico do Git Flow
+
+```{mermaid}
+gitGraph
+    commit id: "Initial"
+    branch develop
+    checkout develop
+    commit id: "Setup"
+    branch feature
+    checkout feature
+    commit id: "Add feature"
+    checkout develop
+    merge feature
+    checkout main
+    merge develop
+    commit id: "Release v1.0"
+  branch hotfix
+  checkout hotfix
+  commit id: "Critical fix"
+  checkout main
+  merge hotfix
+  checkout develop
+  merge hotfix
+```
+
+---
+
+## Conceitos fundamentais
+
+| Conceito | Definição | Quando usar |
+|----------|-----------|-------------|
+| **Repository** | Pasta com histórico de versões | Início de projeto |
+| **Commit** | Snapshot do código em um momento | Funcionalidade completa |
+| **Branch** | Linha paralela de desenvolvimento | Nova feature/correção |
+| **Merge** | Juntar mudanças de branches | Integrar funcionalidades |
+| **Pull Request** | Solicitação de revisão de código | Antes do merge |
+
+---
+
+## Comandos essenciais - Iniciando
+
+### Criando um repositório
+```bash
+# Criar novo repositório
+git init
+
+# Conectar com repositório remoto
+git remote add origin https://github.com/usuario/projeto.git
+```
+
+### Primeiro commit
+```bash
+# Adicionar arquivos
+git add .
+
+# Confirmar mudanças
+git commit -m "Primeira versão do projeto"
+
+# Enviar para servidor
+git push -u origin main
+```
+
+---
+
+## Comandos essenciais - Branches
+
+### Criando e navegando
+```bash
+# Criar nova branch
+git checkout -b feature/analise-dados
+
+# Listar branches
+git branch
+
+# Trocar de branch
+git checkout main
+```
+
+### Enviando branch
+```bash
+# Enviar branch para servidor
+git push origin feature/analise-dados
+```
+
+---
+
+## Comandos essenciais - Atualizações
+
+### Obtendo mudanças
+```bash
+# Baixar mudanças do servidor
+git pull origin main
+
+# Verificar status
+git status
+
+# Ver histórico
+git log --oneline
+```
+
+### Resolvendo conflitos
+```bash
+# Quando há conflitos
+git merge feature/analise-dados
+# Editar arquivos conflitantes
+git add arquivo-resolvido.R
+git commit -m "Resolve conflito de merge"
+```
+
+---
+
+## Fluxo de trabalho prático
+
+::: {.panel-tabset}
+
+### 1. Planejamento
+- Definir nova funcionalidade ou aprimoramento
+- Criar branch com nome descritivo
+
+
+### 2. Desenvolvimento
+```bash
+git checkout main <- Muda o contexto do seu diretório de trabalho para a branch principal
+git pull origin main <- Atualiza sua branch local com as últimas mudanças do repositório remoto
+git checkout -b feature/nova-visualizacao <- Cria e muda para uma nova branch para desenvolver a nova funcionalidade
+```
+
+### 3. Codificação
+```bash
+# Fazer alterações nos arquivos
+git add .
+git commit -m "Adiciona gráfico de série temporal"
+git push origin feature/nova-visualizacao
+```
+
+### 4. Revisão
+- Abrir Pull Request
+- Aguardar code review
+- Fazer ajustes se necessário
+
+:::
+
+---
+
+## VS Code - Interface Git
+
+::: columns
+::: {.column width="60%"}
+### Funcionalidades integradas:
+- **Source Control** na barra lateral
+- **Visualização de diff** linha por linha
+- **Staging** interativo de mudanças
+- **Commit** com mensagens
+- **Push/Pull** com um clique
+- **Branch switching** no status bar
+:::
+
+::: {.column width="40%"}
+### Atalhos essenciais:
+- `Ctrl+Shift+G`: Source Control
+- `Ctrl+Shift+P`: Command Palette
+- `F1`: Git commands
+:::
+:::
+
+
+---
+
+## RStudio/Posit - Interface Git
+
+::: columns
+::: {.column width="60%"}
+### Funcionalidades integradas:
+- **Git tab** no painel superior
+- **Diff viewer** integrado
+- **Commit** com seleção de arquivos
+- **Push/Pull** buttons
+- **History** view
+- **Branch** no canto superior direito
+:::
+
+::: {.column width="40%"}
+### Vantagens para R:
+- Integração com projetos `.Rproj`
+- Preview de mudanças em `.Rmd`
+- Git ignore automático para `.Rhistory`
+:::
+:::
+
+---
+
+## Comparação: VS Code vs RStudio
+
+| Aspecto | VS Code | RStudio |
+|---------|---------|---------|
+| **Curva de aprendizado** | Moderada | Fácil |
+| **Flexibilidade** | Alta (extensões) | Média |
+| **Visualização diff** | Excelente | Boa |
+| **Integração R** | Com extensões | Nativa |
+| **Performance** | Rápida | Média |
+| **Suporte multi-linguagem** | Excelente | Limitado |
+
+---
+
+## Criando um branch - Hands On
+
+### Cenário: Adicionar nova análise de dados
+
+::: {.panel-tabset}
+
+### Via Terminal
+```bash
+# 1. Atualize o main
+git checkout main
+git pull origin main
+
+# 2. Crie branch
+git checkout -b feature/analise-vendas
+
+# 3. Trabalhe no código
+# ... edite seus arquivos R/Python ...
+
+# 4. Commit
+git add analise_vendas.R
+git commit -m "Adiciona análise de vendas por região"
+
+# 5. Push
+git push origin feature/analise-vendas
+```
+
+### Via VS Code
+1. **Ctrl+Shift+P** → "Git: Create Branch"
+2. Digite: `feature/analise-vendas`
+3. Edite arquivos na interface
+4. **Source Control** → Stage → Commit
+5. **Sync Changes**
+
+### Via RStudio
+1. **Git tab** → New Branch
+2. Nome: `feature/analise-vendas`
+3. Edite arquivos no editor
+4. **Git tab** → Staged → Commit
+5. **Push**
+
+:::
+
+---
+
+## Preparando Merge Request
+
+### No GitHub/GitLab:
+
+::: {.incremental}
+1. **Navigate** para seu repositório
+2. **Compare & pull request** ou **New merge request**
+3. **Título descritivo**: "Adiciona análise de vendas por região"
+4. **Descrição detalhada**:
+   - O que foi implementado
+   - Como testar
+   - Screenshots (se aplicável)
+5. **Assign reviewers**
+6. **Labels** e **milestones**
+:::
+
+---
+
+## Estrutura de um bom PR/MR
+
+```markdown
+## Descrição
+Implementa análise de vendas por região usando dados do sistema CRM.
+
+## Mudanças
+- Adiciona script `analise_vendas.R`  
+- Cria visualização mensal por estado
+- Exporta relatório em HTML
+
+## Como testar
+1. Execute `source("analise_vendas.R")`
+2. Verifique se gráfico aparece
+3. Confirme arquivo HTML gerado
+
+## Screenshots
+[Imagem do gráfico]
+
+## Checklist
+- [ ] Código testado
+- [ ] Documentação atualizada
+- [ ] Sem quebra de funcionalidades existentes
+```
+
+---
+
+## Boas práticas - Commits
+
+### ✅ Bons commits:
+```bash
+git commit -m "Adiciona validação de dados de entrada"
+git commit -m "Corrige bug na formatação de datas"
+git commit -m "Melhora performance da consulta SQL"
+```
+
+### ❌ Evite:
+```bash
+git commit -m "mudanças"
+git commit -m "fix"
+git commit -m "update"
+git commit -m "mais coisas"
+```
+
+---
+
+## Boas práticas - Branches
+
+### Nomenclatura sugestiva:
+
+::: columns
+::: {.column width="50%"}
+**Features:**
+- `feature/dashboard-vendas`
+- `feature/api-integration`
+- `feature/export-xlsx`
+
+**Bugs:**
+- `bugfix/date-parsing`
+- `hotfix/production-error`
+:::
+
+::: {.column width="50%"}
+**Refatoração:**
+- `refactor/data-processing`
+- `improve/query-performance`
+
+**Documentação:**
+- `docs/api-documentation`
+- `docs/setup-instructions`
+:::
+:::
+
+---
+
+## Fluxos de trabalho em equipe
+
+### GitHub Flow (Simplicidade)
+```{mermaid}
+gitGraph
+    commit id: "main"
+    branch feature
+    checkout feature
+    commit id: "work"
+    commit id: "more work"
+    checkout main
+    merge feature
+    commit id: "deploy"
+```
+
+### Git Flow (Estruturado)
+```{mermaid}
+gitGraph
+    commit id: "main"
+    branch develop
+    checkout develop
+    branch feature
+    checkout feature
+    commit id: "feature work"
+    checkout develop
+    merge feature
+    branch release
+    checkout release
+    commit id: "release prep"
+    checkout main
+    merge release
+    checkout develop
+    merge release
+```
+
+---
+
+## GitHub Flow na pratica
+
+### Filosofia (simples e continua)
+
+  - Tudo parte da `main` (sempre estavel)
+  - Cada tarefa vira uma branch curta (`feature/...`)
+  - Commits pequenos e frequentes
+- Pull Request cedo para revisao
+- Merge na `main` e deploy continuo
+
+### Quando usar
+
+- Times pequenos e medios
+- Entrega frequente
+- Produto com deploy continuo
+- Menos burocracia que Git Flow completo
+
+---
+
+## Exemplo pratico: GitHub Flow no VS Code
+
+::: {.panel-tabset}
+
+### Cenario
+Objetivo: adicionar metrica de vendas por regiao no arquivo `analise_vendas.R`.
+
+### Passo a passo (interface)
+1. Source Control -> "Create Branch" -> `feature/metricas-regiao`
+2. Editar o arquivo e salvar
+3. Source Control -> Stage Changes
+4. Commit: "Adiciona metrica de vendas por regiao"
+5. Publish Branch / Push
+6. Abrir Pull Request no GitHub
+7. Apos aprovacao: Merge PR e Delete Branch
+
+### Equivalente no terminal integrado
+```bash
+git checkout main
+git pull origin main
+git checkout -b feature/metricas-regiao
+git add .
+git commit -m "Adiciona metrica de vendas por regiao"
+git push -u origin feature/metricas-regiao
+```
+
+:::
+
+---
+
+## Exemplo pratico: GitHub Flow no RStudio/Posit
+
+::: {.panel-tabset}
+
+### Cenario
+Objetivo: criar grafico mensal no arquivo `analise_vendas.R`.
+
+### Passo a passo (interface)
+1. Aba Git -> New Branch -> `feature/grafico-mensal`
+2. Editar script no editor do RStudio
+3. Aba Git -> marcar arquivos (Staged)
+4. Commit: "Cria grafico mensal de vendas"
+5. Push da branch
+6. Abrir Pull Request no GitHub
+7. Merge apos review
+
+### Equivalente via terminal (RStudio)
+```bash
+git checkout main
+git pull origin main
+git checkout -b feature/grafico-mensal
+git add analise_vendas.R
+git commit -m "Cria grafico mensal de vendas"
+git push -u origin feature/grafico-mensal
+```
+
+:::
+
+---
+
+## Checklist de Pull Request (GitHub Flow)
+
+- Branch curta e com nome descritivo
+- Mudanca pequena e focada
+- Mensagem de commit clara
+- Evidencia de teste (print ou log)
+- Reviewer definido
+  - Merge e exclusao da branch
+
+  ---
+
+## Resolvendo conflitos
+
+### Quando acontecem:
+- Duas pessoas editam **mesma linha**
+- Alterações **simultâneas** no mesmo arquivo
+- **Merge** de branches divergentes
+
+### Como resolver:
+1. **Git indica** arquivos com conflito
+2. **Abrir arquivo** e localizar markers:
+   ```
+   <<<<<<< HEAD
+   código atual
+   =======
+   código conflitante  
+   >>>>>>> branch-name
+   ```
+3. **Decidir** qual versão manter
+4. **Remover** markers e testar
+5. **Commit** da resolução
+
+---
+
+## Ferramentas visuais
+
+### Para principiantes:
+- **GitHub Desktop** - Interface simples
+- **Sourcetree** - Visualização de branches
+- **GitKraken** - Interface moderna
+
+### Integradas:
+- **VS Code** - Source Control nativo
+- **RStudio** - Git tab
+- **PyCharm** - VCS integration
+
+### Terminal avançado:
+- **tig** - Text-mode interface
+- **lazygit** - Terminal UI
+
+---
+
+## Exercício prático
+
+### Vamos implementar juntos:
+
+::: {.incremental}
+1. **Clonar** repositório existente
+2. **Criar branch** `feature/seu-nome`
+3. **Adicionar** arquivo com sua análise
+4. **Commit** com mensagem descritiva
+5. **Push** do branch
+6. **Abrir Pull Request**
+7. **Review** do código dos colegas
+8. **Merge** após aprovação
+:::
+
+---
+
+## Comandos de emergência
+
+### Desfazer mudanças:
+```bash
+# Desfazer mudanças não commitadas
+git checkout -- arquivo.R
+
+# Desfazer último commit (mantém mudanças)
+git reset --soft HEAD~1
+
+# Voltar para commit específico
+git reset --hard abc123
+```
+
+### Limpeza:
+```bash
+# Remover arquivos não rastreados
+git clean -f
+
+# Ver o que seria removido
+git clean -n
+```
+
+---
+
+## Workflow típico - Resumo
+
+::: {.panel-tabset}
+
+### Diário
+```bash
+# Início do dia
+git checkout main
+git pull origin main
+
+# Nova tarefa
+git checkout -b feature/task-name
+
+# Durante desenvolvimento
+git add .
+git commit -m "Meaningful message"
+
+# Fim do dia
+git push origin feature/task-name
+```
+
+### Semanal
+```bash
+# Integração
+# Abrir Pull Request
+# Code Review
+# Merge para main
+# Delete feature branch
+
+git branch -d feature/task-name
+git push origin --delete feature/task-name
+```
+
+### Mensal
+```bash
+# Update local repository
+git fetch --prune
+
+# Clean up old branches
+git branch | grep -v main | xargs git branch -D
+```
+
+:::
+
+---
