@@ -608,7 +608,35 @@ git push -u origin feature/grafico-mensal
 - Reviewer definido
   - Merge e exclusao da branch
 
-  ---
+
+## Exemplo do Fluxo Git Flow usado na CGID
+
+  ```{mermaid}
+gitGraph
+    commit id: "Branch main"
+
+    branch desenv
+    checkout desenv
+    commit id: "1. Branch para desenvolvimento"
+
+    branch feature/Analista
+    checkout feature/Analista
+    commit id: "Commit/Push #1 da feature"
+    commit id: "Commit/Push #2 da feature"
+    commit id: "2. Commit/Push #3 da feature"
+
+    checkout desenv
+    commit id: "MR de outro analista"
+    checkout feature/Analista
+    merge desenv id: "3. Pull para consistência"
+    checkout desenv
+    merge feature/Analista id: "4. Merge Request"
+
+    checkout main
+    merge desenv id: "5. Atualizar para produção"
+```
+
+---
 
 ## Resolvendo conflitos
 
