@@ -2,7 +2,7 @@
 Exemplo prático: Análise de Vendas em Python
 Este arquivo será usado para demonstrar fluxo Git
 """
-
+#Comentário do Amilton
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
