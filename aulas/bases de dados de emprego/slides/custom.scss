@@ -1,0 +1,176 @@
+/*-- scss:rules --*/
+
+/* Tipografia */
+.reveal {
+  font-family: "Arial", sans-serif;
+  font-size: 32px;
+}
+
+.reveal h1 {
+  font-size: 2.2em;
+  font-weight: 700;
+}
+
+.reveal h2, .reveal h3 {
+  color: #584cd2;
+}
+
+/* Hero slide */
+.hero {
+  background: rgba(255,255,255,0.75);
+  padding: 1rem 2rem;
+  border-radius: 16px;
+  display: inline-block;
+}
+
+/* Full background image */
+.full-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+/* Cards */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+}
+
+.card {
+  background: #f5f5f5;
+  border-left: 8px solid #584cd2;
+  padding: 1rem;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Columns */
+.columns {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+/* ── Agenda (slide "O que vamos aprender hoje?") ── */
+.agenda-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 0.8rem;
+  font-size: 0.78em;
+}
+
+.card-agenda {
+  border-top: 2px solid #aaaaaa;
+  padding-top: 0.6rem;
+}
+
+.agenda-num {
+  display: block;
+  font-size: 0.95em;
+  color: #999;
+  margin-bottom: 0.35rem;
+}
+
+/* ── Question cards (Pergunta Analítica / Perguntas fundamentais) ── */
+.card-q {
+  background: #eeecfb;
+  border-radius: 10px;
+  padding: 1rem;
+  font-size: 0.82em;
+}
+
+.card-q-num {
+  font-weight: 700;
+  font-size: 1em;
+  background: #eeecfb;
+  border-radius: 6px 6px 0 0;
+  padding: 0.3rem 0.6rem;
+  margin: -1rem -1rem 0.7rem;
+  text-align: center;
+  color: #444;
+}
+
+/* ── Feature items (grid-2 de features) ── */
+.feature-item {
+  font-size: 0.82em;
+  line-height: 1.45;
+}
+
+/* ── Tag / badge ── */
+.tag {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.65em;
+  letter-spacing: 0.06em;
+  color: #555;
+  background: #f5f5f5;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 0.6rem;
+}
+
+/* ── Section tag (slides com label acima do título) ── */
+.section-tag {
+  display: inline-block;
+  font-size: 0.6em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #777;
+  border: 1px solid #ccc;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  margin-bottom: 0.6rem;
+}
+
+/* ── Info box (caixa azul clara) ── */
+.info-box {
+  background: #e8f0fe;
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  font-size: 0.75em;
+  margin-top: 0.8rem;
+  line-height: 1.5;
+}
+
+/* ── Bold question line ── */
+.bold-q {
+  font-weight: 700;
+  font-size: 0.85em;
+  margin-top: 1rem;
+}
+
+/* ── Practice box (slide Hora da Prática) ── */
+.practice-box {
+  background: #584cd2;
+  color: white;
+  border-radius: 14px;
+  padding: 1.4rem 1.6rem;
+  font-size: 0.82em;
+}
+
+.practice-title {
+  display: block;
+  color: white;
+  font-size: 1.05em;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+}
+
+.practice-box li {
+  color: white;
+  margin-bottom: 0.4rem;
+}

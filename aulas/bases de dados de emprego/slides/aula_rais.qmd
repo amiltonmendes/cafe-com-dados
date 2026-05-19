@@ -1,223 +1,377 @@
 ---
-title: "RAIS"
-subtitle: "Relacao Anual de Informacoes Sociais"
-author: "Amilton Lobo Mendes Junior"
 format:
   revealjs:
-    footer: "Cafe com Dados - Bases de Emprego (RAIS)"
+    theme: [default, custom.scss]
+    title-slide: false
+    slide-number: true
+    transition: slide
+    css: assets/capa.css
+    hash: false
 ---
 
-## Capa {.capa-slide}
+## {data-menu-title="Capa" background-color="white"}
 
-::: {.capa-wrap}
-![]({{< meta logo_path >}}){.capa-logo}
+:::: {.columns style="height:100%;align-items:center;"}
+::: {.column style="width:45%;padding:0;"}
+![](assets/capa-bg.png){style="width:100%;max-height:82vh;object-fit:cover;border-radius:12px;"}
+:::
+::: {.column style="width:55%;padding-left:2.5rem;"}
+[Contação de histórias de dados na prática]{style="font-size:1.55em;line-height:1.25;font-weight:800;display:block;margin-bottom:0.7rem;color:#111;"}
 
-# {{< meta title >}} {.capa-titulo}
+Entendendo princípios de visualização de dados e contação de histórias de dados de forma prática
 
-## {{< meta subtitle >}} {.capa-subtitulo}
+::: {.tag style="margin-top:1.2rem;"}
+MERCADO DE TRABALHO
+:::
+:::
+::::
 
-::: {.capa-org}
-{{< meta organizacao_nome >}}
+---
+
+## O que vamos aprender hoje?
+
+Esta aula cobre os fundamentos para você trabalhar contação de história de dados utilizando a RAIS como fonte para a análise.
+
+:::: {.agenda-grid}
+::: {.card-agenda}
+[01]{.agenda-num}
+
+**Contação de Histórias de Dados**
+
+Princípios de contação de histórias com dados
 :::
 
-::: {.capa-unidade}
-Unidade: {{< meta organizacao_subtitulo >}}
+::: {.card-agenda}
+[02]{.agenda-num}
+
+**Visualização de Dados**
+
+Um gráfico para cada tipo de dado
 :::
 
-::: {.capa-prof}
-Professor: {{< meta professor_nome >}} | {{< meta professor_email >}}
+::: {.card-agenda}
+[03]{.agenda-num}
+
+**O que é a RAIS**
+
+Cobertura, periodicidade e unidade de análise
+:::
+
+::: {.card-agenda}
+[04]{.agenda-num}
+
+**Biblioteca SDIC**
+
+Apresentação da biblioteca de acesso centralizado aos dados de Emprego
+:::
+
+::: {.card-agenda}
+[05]{.agenda-num}
+
+**Hora da Prática**
+
+Aplicando conceitos com R e Python para visualização de dados de emprego (RAIS e CAGED)
+:::
+::::
+
+---
+
+## O que é Contação de Histórias de Dados\*?
+
+A arte de transformar dados complexos em narrativas claras e envolventes, tornando insights acessíveis e acionáveis para qualquer público. É a ponte entre números e significado.
+
+:::: {.columns}
+::: {.column style="width:55%;"}
+#### Por que usar Data Storytelling?
+
+:::: {.grid-2 style="margin-top:0.5rem;"}
+::: {.feature-item}
+**Simplifica a Complexidade**
+
+Converte dados brutos em insights fáceis de compreender.
+:::
+
+::: {.feature-item}
+**Aumenta o Impacto**
+
+Vai além dos números, gerando conexão emocional e memorização.
+:::
+
+::: {.feature-item}
+**Facilita Decisões**
+
+Direciona ações estratégicas com base em evidências sólidas.
+:::
+
+::: {.feature-item}
+**Engaja o Público**
+
+Prende a atenção e inspira mudanças e colaboração.
+:::
+::::
+:::
+
+::: {.column style="width:45%;"}
+::: {.info-box style="margin-top:4rem;"}
+\*Data Storytelling é o termo em inglês relacionado à combinação de dados, visualizações e narrativa para comunicar insights de forma clara e memorável.
+:::
+:::
+::::
+
+---
+
+## Storytelling de Dados: A Pergunta Analítica
+
+Todo bom storytelling de dados parte de perguntas claras e bem formuladas. Elas guiam a análise e a escolha da visualização.
+
+::: {.tag}
+EXEMPLO PRÁTICO — MERCADO DE TRABALHO NA INDÚSTRIA
+:::
+
+:::: {.grid-3 style="margin-top:0.8rem;"}
+::: {.card-q}
+::: {.card-q-num}
+1
+:::
+**Distribuição por Grupo Tecnológico**
+
+Como o emprego se distribui entre grupos tecnológicos da indústria em dois períodos distintos?
+:::
+
+::: {.card-q}
+::: {.card-q-num}
+2
+:::
+**Variação do Peso Relativo**
+
+O peso relativo de cada grupo mudou significativamente entre os períodos?
+:::
+
+::: {.card-q}
+::: {.card-q-num}
+3
+:::
+**Transformação Estrutural**
+
+Observamos uma transformação estrutural ou apenas crescimento geral do emprego?
+:::
+::::
+
+::: {.bold-q}
+Quais as Visualizações mais Adequadas para Responder a Essas Perguntas?
+:::
+
+---
+
+## Alfabetização Visual: escolhendo o gráfico certo
+
+O tipo de dado deve guiar a escolha da visualização — nunca o contrário.
+
+:::: {.grid-2 style="margin-top:0.6rem;"}
+::: {.feature-item}
+**Barras e Colunas**
+
+Comparar setores, sexo, escolaridade ou regiões. Ideal para **rankings e comparações diretas**.
+:::
+
+::: {.feature-item}
+**Linhas**
+
+Séries históricas de emprego, massa salarial. Revela **tendências, sazonalidade e quebras estruturais**.
+:::
+
+::: {.feature-item}
+**Histogramas**
+
+Distribuição de salários, idade e tempo de vínculo. Mostra **assimetria e concentração**.
+:::
+
+::: {.feature-item}
+**Boxplot**
+
+Comparar salários por setor, gênero ou região. Destaca **mediana, quartis e outliers**.
+:::
+
+::: {.feature-item}
+**Dispersão**
+
+Escolaridade × salário, porte × remuneração. Identifica **correlações e clusters**.
+:::
+
+::: {.feature-item}
+**Mapas**
+
+Distribuição regional e concentração territorial. Diferencia **valor absoluto de relativo**.
+:::
+::::
+
+---
+
+## Escolha das Visualizações: Exemplo Prático
+
+::: {.tag}
+EXEMPLO PRÁTICO — MERCADO DE TRABALHO NA INDÚSTRIA
+:::
+
+:::: {.columns style="margin-top:0.6rem;align-items:flex-start;"}
+::: {.column style="width:50%;padding-right:1rem;"}
+**Gráfico de Barras Empilhadas**
+
+Ideal para visualizar a **distribuição total** por grupos tecnológicos em cada período — mostra proporção e total simultaneamente.
+
+![](assets/chart_barras_empilhadas.png){style="width:100%;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,0.12);"}
+:::
+
+::: {.column style="width:50%;padding-left:0.5rem;"}
+**Gráfico de Inclinação (Slope Chart)**
+
+Perfeito para ilustrar a **mudança no peso relativo** de cada grupo entre períodos — destaca ganhos e perdas de participação.
+
+![](assets/chart_slope.png){style="width:100%;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,0.12);"}
+:::
+::::
+
+---
+
+## {data-menu-title="O que é a RAIS?" background-color="white"}
+
+:::: {.columns style="height:100%;align-items:center;"}
+::: {.column style="width:55%;"}
+::: {.section-tag}
+APRESENTAÇÃO DA BASE DE DADOS
+:::
+
+[O que é a RAIS?]{style="font-size:1.6em;font-weight:800;display:block;margin:0.5rem 0 0.8rem;color:#111;"}
+
+A **Relação Anual de Informações Sociais** é um registro administrativo obrigatório, declarado anualmente pelos estabelecimentos ao Ministério do Trabalho. É a principal fonte de dados sobre o **emprego formal** no Brasil.
+:::
+
+::: {.column style="width:45%;"}
+![](assets/rais-bg.png){style="width:100%;max-height:75vh;object-fit:cover;border-radius:12px;"}
+:::
+::::
+
+---
+
+## Estrutura e cobertura da RAIS
+
+:::: {.columns style="align-items:flex-start;"}
+::: {.column style="width:48%;"}
+![](assets/rais-bg.png){style="width:100%;max-height:44vh;object-fit:cover;border-radius:10px;"}
+
+::: {.info-box style="font-size:0.65em;margin-top:0.5rem;"}
+O que **não está** na RAIS: trabalhadores informais, autônomos sem vínculo, MEIs sem empregados e alguns vínculos estatutários.
 :::
 :::
 
-## Objetivo da aula
+::: {.column style="width:52%;padding-left:1.5rem;font-size:0.82em;"}
+**O que a RAIS mede?**
 
-- Entender a RAIS como censo anual do emprego formal
-- Entender o dominio das variaveis da RAIS
-- Praticar cruzamentos e manipulacao de dados com SQL
+- **Unidade de análise:** o vínculo empregatício (não o trabalhador)
+- **Periodicidade:** anual — retrato do estoque em 31/12
+- **Cobertura:** emprego formal (CLT, estatutários, temporários)
 
----
+**RAIS Completa vs. RAIS Negativa**
 
-## O que e a RAIS
-
-- Registro administrativo anual
-- Informacoes detalhadas de estabelecimentos e vinculos formais
-- Cobertura nacional do mercado formal
-- Uso forte em analise estrutural e historica
-
----
-
-## Fonte de referencia do layout
-
-- Dicionario e notas metodologicas da RAIS (MTE)
-- O layout define:
-  - variaveis por trabalhador e estabelecimento
-  - codigos de classificacao (CNAE, CBO, escolaridade)
-  - regras de consistencia e preenchimento
+- **Completa:** estabelecimentos com pelo menos um vínculo ativo
+- **Negativa:** estabelecimentos sem vínculos no ano-base
+:::
+::::
 
 ---
 
-## Estrutura geral da base
+## Perguntas fundamentais antes de analisar
 
-| Bloco | Variaveis de exemplo |
-|---|---|
-| Tempo | ano |
-| Territorio | uf, municipio |
-| Atividade economica | secao_cnae, subclasse_cnae |
-| Ocupacao | cbo2002 |
-| Perfil do trabalhador | sexo, idade, raca_cor, escolaridade |
-| Vinculo e rendimento | tipo_vinculo, tempo_emprego, remuneracao_media |
+Antes de qualquer análise, faça sempre estas três perguntas orientadoras:
 
----
+:::: {.grid-3 style="margin-top:1.2rem;"}
+::: {.card-q style="background:#f0f0f8;"}
+**O que cada linha representa?**
 
-## Diferenca principal: CAGED x RAIS
+Um **vínculo empregatício** — não um trabalhador único. Um mesmo trabalhador pode ter múltiplos vínculos no ano.
+:::
 
-| Base | Frequencia | Foco |
-|---|---|---|
-| CAGED | Mensal | Fluxo: admissoes e desligamentos |
-| RAIS | Anual | Estoque e caracteristicas do vinculo |
+::: {.card-q style="background:#f0f0f8;"}
+**Quem declara?**
 
----
+O **estabelecimento empregador** — não o trabalhador. A qualidade dos dados depende da regularidade da declaração.
+:::
 
-## Variaveis centrais para analise
+::: {.card-q style="background:#f0f0f8;"}
+**O que posso analisar?**
 
-- `remuneracao_media`: rendimento medio do vinculo no ano
-- `tempo_emprego`: permanencia no vinculo
-- `escolaridade`: maior nivel de instrucao declarado
-- `cbo2002`: ocupacao do trabalhador
-- `subclasse_cnae`: atividade economica detalhada
-- `tipo_vinculo`: natureza do vinculo no emprego formal
+Estoque, fluxo, distribuição setorial, remuneração, perfil do trabalhador formal — dentro da cobertura do emprego formal.
+:::
+::::
 
 ---
 
-## Cruzamentos analiticos recomendados
+## Biblioteca SDIC: Acesso Centralizado aos Dados
 
-- `ano x uf x secao_cnae`: estrutura regional do emprego formal
-- `ano x cbo2002`: mudancas ocupacionais no longo prazo
-- `escolaridade x sexo`: composicao do emprego por perfil
-- `subclasse_cnae x remuneracao_media`: diferenciais salariais setoriais
-- `tempo_emprego x faixa_etaria`: estabilidade do vinculo por idade
+:::: {.columns style="align-items:center;"}
+::: {.column style="width:50%;"}
+A Biblioteca SDIC (Sistema de Dados de Interesse Coletivo) é sua fonte unificada para informações cruciais sobre o mercado de trabalho.
 
----
+:::: {.grid-2 style="margin-top:0.8rem;"}
+::: {.feature-item}
+**Acesso Unificado**
 
-## Regras de manipulacao antes dos indicadores
+Todos os dados de interesse coletivo, incluindo RAIS, em um só lugar.
+:::
 
-- Padronizar classificacoes CNAE e CBO entre anos
-- Tratar codigos ignorados/nao informados em campos categóricos
-- Corrigir outliers de remuneracao com regras transparentes
-- Deflacionar rendimentos para comparacao intertemporal
-- Documentar filtros de vinculos ativos e escopo analitico
+::: {.feature-item}
+**Descoberta Simplificada**
 
----
+Encontre informações sem a complexidade de bases desagregadas.
+:::
 
-## Exemplo SQL 1: estoque de vinculos por UF
+::: {.feature-item}
+**Padronização e Qualidade**
 
-```sql
-SELECT
-  ano,
-  uf,
-  COUNT(*) AS estoque_vinculos
-FROM `seu_projeto.seu_dataset.rais_vinculos`
-GROUP BY 1, 2
-ORDER BY 1, 2;
-```
+Dados consistentemente padronizados e documentados.
+:::
 
----
+::: {.feature-item}
+**Agilidade para Insights**
 
-## Exemplo SQL 2: salario medio por setor
+Foque na geração de valor em vez da coleta e processamento de dados.
+:::
+::::
+:::
 
-```sql
-SELECT
-  ano,
-  secao_cnae,
-  AVG(remuneracao_media) AS salario_medio,
-  COUNT(*) AS qtd_vinculos
-FROM `seu_projeto.seu_dataset.rais_vinculos`
-WHERE remuneracao_media > 0
-GROUP BY 1, 2
-ORDER BY 1, 2;
-```
+::: {.column style="width:50%;"}
+![](assets/sdic-exemplo.png){style="width:100%;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.15);"}
+:::
+::::
 
 ---
 
-## Exemplo SQL 3: participacao por escolaridade
+## Arquitetura de Dados em 6 Camadas
 
-```sql
-WITH base AS (
-  SELECT
-    ano,
-    escolaridade,
-    COUNT(*) AS qtd
-  FROM `seu_projeto.seu_dataset.rais_vinculos`
-  GROUP BY 1, 2
-)
-SELECT
-  ano,
-  escolaridade,
-  qtd,
-  ROUND(100 * qtd / SUM(qtd) OVER (PARTITION BY ano), 2) AS participacao_pct
-FROM base
-ORDER BY ano, participacao_pct DESC;
-```
+![](assets/arquitetura_6_camadas.png){style="width:100%;max-height:82vh;object-fit:contain;"}
 
 ---
 
-## Atividade 1 (SQL)
+## Hora da Prática: Aplicando Conceitos com R e Python
 
-Objetivo: medir crescimento do estoque formal por UF entre dois anos.
+:::: {.columns style="align-items:flex-start;"}
+::: {.column style="width:55%;"}
+::: {.practice-box}
+[**O que vamos fazer?**]{.practice-title}
 
-Requisitos:
+- Aprender a utilizar a biblioteca sdic por meio de exemplos práticos
+- Resolver exercícios de análise e visualização de dados
+- Construir gráficos que comuniquem uma mensagem com clareza
+- Aplicar princípios de data storytelling em cenários reais
+- Explorar como adaptar a visualização ao público e ao contexto
+:::
+:::
 
-- Escolher dois anos
-- Calcular estoque de vinculos por UF
-- Estimar variacao absoluta e percentual
-- Ordenar por maior crescimento percentual
+::: {.column style="width:45%;padding-left:2rem;"}
+#### Ambientes para prática
 
----
+- **R:**
 
-## Atividade 2 (SQL)
-
-Objetivo: identificar ocupacoes com maior crescimento de salario medio real.
-
-Requisitos:
-
-- Usar `cbo2002` e `remuneracao_media`
-- Aplicar ajuste inflacionario previamente
-- Exigir minimo de observacoes por ocupacao
-- Mostrar top 20 ocupacoes
-
----
-
-## Atividade 3 (SQL)
-
-Objetivo: avaliar concentracao setorial do emprego formal por municipio.
-
-Requisitos:
-
-- Selecionar um municipio
-- Calcular participacao dos setores (`subclasse_cnae`)
-- Montar ranking com os 10 principais setores
-- Comentar especializacao economica local
-
----
-
-## Perguntas para discussao
-
-- Quais setores concentram empregos de maior salario medio?
-- Como evoluiu o perfil de escolaridade dos vinculos?
-- Quais ocupacoes cresceram mais no longo prazo?
-
----
-
-## Cuidados metodologicos
-
-- Tratar mudancas em classificacoes (CNAE/CBO)
-- Ajustar comparacao real de salarios com deflator
-- Definir regras de limpeza e padronizacao antes da analise
-
----
-
-## Encerramento
-
-- RAIS e base anual essencial para estudos estruturais do emprego formal
-- Complementa o CAGED com maior profundidade de atributos
-- SQL e essencial para transformar microdados em evidencias para politica publica
+- **Python:**
+:::
+::::
